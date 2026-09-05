@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark only">
+<title>SVOI — платформа сообщества и доля в нём</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFFFF;--bg2:#EAF7FC;--card:#FFFFFF;--card2:#F2FAFD;
+  --ink:#2A2E35;--ink2:#565B66;--ink3:#8A909B;
+  --gold:#E63329;--gold2:#C42920;--lilac:#2FA9D4;--lilac2:#2790B8;
+  --sky:#5BC2E7;--sky2:#8FD6EF;
+  --line:rgba(42,46,53,.10);--line2:rgba(42,46,53,.16);
+  --grad:linear-gradient(120deg,#5BC2E7 0%,#2FA9D4 55%,#2790B8 100%);
+  --shadow:0 18px 44px -20px rgba(40,60,80,.24);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Manrope',system-ui,sans-serif;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.backdrop{position:fixed;inset:0;z-index:-1;background:var(--bg)}
+h1,h2,h3,h4,.display{font-family:'Unbounded',sans-serif;font-weight:800;line-height:1.05;letter-spacing:-.01em}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(20,10,31,.72);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
+.logo{font-family:'Unbounded';font-weight:700;font-size:18px;letter-spacing:.02em;display:flex;align-items:center;gap:9px}
+.logo .dot{width:11px;height:11px;border-radius:3px;background:var(--grad)}
+.navlinks{display:flex;gap:6px}
+.navlinks a{color:var(--ink2);text-decoration:none;font-size:14px;font-weight:600;padding:8px 13px;border-radius:10px;transition:.2s}
+.navlinks a:hover{color:var(--ink);background:rgba(185,140,255,.10)}
+.navlinks a.active{color:var(--bg);background:var(--grad)}
+
+.deadline{background:linear-gradient(90deg,rgba(232,184,75,.16),rgba(185,140,255,.12));border-bottom:1px solid var(--line2);text-align:center;padding:10px 16px;font-size:13.5px;font-weight:600;color:var(--gold2)}
+.deadline b{color:var(--ink)}
+
+header{padding:78px 0 56px;position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:'Unbounded';font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;color:var(--gold2);border:1px solid var(--line2);padding:8px 16px;border-radius:100px;margin-bottom:26px}
+.eyebrow .pulse{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(232,184,75,.55)}70%{box-shadow:0 0 0 12px rgba(232,184,75,0)}100%{box-shadow:0 0 0 0 rgba(232,184,75,0)}}
+header h1{font-size:clamp(38px,6.4vw,74px);max-width:15ch}
+.lede{font-size:clamp(17px,2vw,21px);color:var(--ink2);max-width:56ch;margin-top:26px;line-height:1.6}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px}
+.btn{font-family:'Unbounded';font-weight:600;font-size:15px;text-decoration:none;padding:15px 28px;border-radius:14px;cursor:pointer;border:none;transition:.22s;display:inline-flex;align-items:center;gap:10px}
+.btn-primary{background:var(--grad);color:#1a0f04;box-shadow:0 14px 36px -12px rgba(232,184,75,.5)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 20px 44px -12px rgba(232,184,75,.62)}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line2)}
+.btn-ghost:hover{background:rgba(185,140,255,.10);border-color:var(--lilac)}
+
+.market{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:60px}
+.mstat{background:linear-gradient(160deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:18px;padding:24px 22px}
+.mstat .num{font-family:'Unbounded';font-weight:800;font-size:clamp(24px,3.2vw,36px);background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.mstat .lbl{color:var(--ink3);font-size:13px;margin-top:8px;line-height:1.45}
+
+section{padding:70px 0;position:relative}
+.sec-head{max-width:64ch;margin-bottom:42px}
+.sec-tag{font-family:'Unbounded';font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--lilac);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.sec-tag::before{content:'';width:34px;height:2px;background:var(--grad);border-radius:2px}
+.sec-head h2{font-size:clamp(28px,4.4vw,46px)}
+.sec-head p{color:var(--ink2);font-size:18px;margin-top:18px;line-height:1.6}
+
+.mission{background:linear-gradient(155deg,var(--card2),var(--bg2));border:1px solid var(--line2);border-radius:28px;padding:56px 48px;text-align:center}
+.mission .big-quote{font-family:'Unbounded';font-weight:700;font-size:clamp(24px,4vw,40px);line-height:1.2;max-width:20ch;margin:0 auto 24px}
+.mission p{color:var(--ink2);font-size:18px;max-width:60ch;margin:0 auto;line-height:1.65}
+.mission .name-why{display:flex;gap:30px;justify-content:center;flex-wrap:wrap;margin-top:38px}
+.nw{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:22px 28px;max-width:280px}
+.nw .nw-t{font-family:'Unbounded';color:var(--gold2);font-size:15px;margin-bottom:8px}
+.nw .nw-d{color:var(--ink2);font-size:14px;line-height:1.55}
+
+.featgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.feat-item{display:flex;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
+.feat-item .ic{flex-shrink:0;width:46px;height:46px;border-radius:12px;background:rgba(232,184,75,.12);display:flex;align-items:center;justify-content:center;font-size:22px}
+.feat-item h4{font-size:17px;margin-bottom:6px}
+.feat-item p{color:var(--ink2);font-size:14px;line-height:1.55}
+
+.revstreams{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px}
+.rev{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px 24px}
+.rev .rev-n{font-family:'Unbounded';font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--lilac)}
+.rev h4{font-size:19px;margin:10px 0 8px}
+.rev .rev-fig{font-family:'Unbounded';font-weight:800;font-size:28px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin:6px 0}
+.rev p{color:var(--ink2);font-size:14px;line-height:1.55}
+
+.bizdeal{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:30px}
+.bizcol{border-radius:20px;padding:32px;border:1px solid var(--line)}
+.bizcol.bad{background:linear-gradient(160deg,rgba(200,16,46,.10),var(--bg2));border-color:rgba(200,16,46,.3)}
+.bizcol.good{background:linear-gradient(160deg,rgba(232,184,75,.12),var(--bg2));border-color:var(--line2)}
+.bizcol .bc-tag{font-family:'Unbounded';font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+.bizcol.bad .bc-tag{color:#FF8095}
+.bizcol.good .bc-tag{color:var(--gold2)}
+.bizcol .bc-fig{font-family:'Unbounded';font-weight:800;font-size:40px;margin-bottom:10px}
+.bizcol p{color:var(--ink2);font-size:15px;line-height:1.6}
+
+.tabs{display:inline-flex;background:var(--card);border:1px solid var(--line);border-radius:100px;padding:6px;gap:4px;margin-bottom:36px}
+.chartbox{background:linear-gradient(165deg,var(--card2),var(--bg2));border:1px solid var(--line2);border-radius:24px;padding:34px;box-shadow:var(--shadow)}
+.chart-head{margin-bottom:24px}
+.chart-legend{display:flex;gap:24px;flex-wrap:wrap;margin-top:20px;color:var(--ink2);font-size:13px;font-weight:600}
+.chart-legend span{display:flex;align-items:center;gap:8px}
+.chart-legend i{width:16px;height:4px;border-radius:3px;display:inline-block}
+.tabs button{font-family:'Unbounded';font-weight:600;font-size:14px;color:var(--ink2);background:transparent;border:none;padding:11px 22px;border-radius:100px;cursor:pointer;transition:.2s}
+.tabs button.active{background:var(--grad);color:#1a0f04}
+.page{display:none}
+.page.active{display:block;animation:fade .4s ease}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.calc{background:linear-gradient(165deg,var(--card2),var(--bg2));border:1px solid var(--line2);border-radius:26px;padding:8px;box-shadow:var(--shadow)}
+.calc-inner{background:var(--bg);border-radius:20px;padding:34px;display:grid;grid-template-columns:1fr 1.15fr;gap:38px}
+.calc-controls h3{font-size:22px;margin-bottom:6px}
+.calc-controls .sub{color:var(--ink3);font-size:14px;margin-bottom:26px}
+.field{margin-bottom:24px}
+.field .flabel{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.field .flabel span:first-child{font-weight:700;font-size:15px}
+.field .flabel .val{font-family:'Unbounded';font-weight:700;font-size:17px;color:var(--gold2)}
+input[type=range]{-webkit-appearance:none;width:100%;height:7px;border-radius:6px;background:linear-gradient(90deg,var(--lilac),var(--gold));outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;border:4px solid var(--gold);cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.5)}
+input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;border:4px solid var(--gold);cursor:pointer}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-family:'Manrope';font-weight:700;font-size:14px;padding:10px 16px;border-radius:11px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer;transition:.18s}
+.chip.active{background:var(--grad);color:#1a0f04;border-color:transparent}
+
+.result{background:linear-gradient(170deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:18px;padding:30px;display:flex;flex-direction:column}
+.result .rtitle{font-family:'Unbounded';font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--lilac);margin-bottom:22px}
+.bigfig .cap{color:var(--ink3);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+.bigfig .amount{font-family:'Unbounded';font-weight:800;font-size:clamp(32px,5vw,50px);line-height:1;margin-top:6px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+.rcell{background:rgba(185,140,255,.07);border:1px solid var(--line);border-radius:13px;padding:15px}
+.rcell .c-lbl{color:var(--ink3);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.rcell .c-val{font-family:'Unbounded';font-weight:700;font-size:20px;margin-top:7px;color:var(--ink)}
+.rcell.accent .c-val{color:var(--gold2)}
+.rnote{margin-top:20px;padding-top:18px;border-top:1px solid var(--line);color:var(--ink3);font-size:13px;line-height:1.6}
+
+.yeartable{margin-top:28px;background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.yeartable .tt{padding:22px 26px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.yeartable .tt h4{font-size:18px}
+.yeartable .tt .badge{font-family:'Unbounded';font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--gold2);border:1px solid var(--line2);padding:6px 13px;border-radius:100px}
+table{width:100%;border-collapse:collapse}
+th,td{padding:14px 22px;text-align:right;font-size:14px}
+th:first-child,td:first-child{text-align:left}
+thead th{font-family:'Unbounded';font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);background:rgba(185,140,255,.05)}
+tbody tr{border-top:1px solid var(--line)}
+tbody td{color:var(--ink2);font-weight:600}
+tbody td.hl{font-family:'Unbounded';color:var(--gold2);font-weight:700}
+tbody tr:last-child{background:rgba(232,184,75,.07)}
+tbody tr:last-child td{color:var(--ink)}
+/* разделитель: после % рынка (3) идёт денежный блок 4-5-6, всё в CHF — жёлтым */
+th:nth-child(4),td:nth-child(4){border-left:2px solid var(--line2)}
+thead th:nth-child(4),thead th:nth-child(5),thead th:nth-child(6){color:var(--gold2)}
+tbody td:nth-child(4){color:var(--gold2);font-family:'Unbounded';font-weight:700}
+td:nth-child(2){color:var(--lilac2);font-family:'Unbounded';font-size:13px}
+
+.tiers{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:10px}
+.tier{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px 18px;text-align:center;position:relative;transition:.22s}
+.tier:hover{transform:translateY(-5px);border-color:var(--line2)}
+.tier.feat{border-color:var(--gold);background:linear-gradient(170deg,rgba(232,184,75,.12),var(--card))}
+.tier .tier-name{font-family:'Unbounded';font-size:14px;font-weight:600;color:var(--lilac2);text-transform:uppercase;letter-spacing:.05em}
+.tier.feat .tier-name{color:var(--gold2)}
+.tier .packs{font-family:'Unbounded';font-weight:800;font-size:30px;margin:12px 0 2px}
+.tier .packs small{font-size:14px;color:var(--ink3);font-weight:500;display:block;margin-top:3px}
+.tier .price{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.tier .price .p-now{font-family:'Unbounded';font-weight:700;font-size:24px;color:var(--ink)}
+.tier .price .p-old{color:var(--ink3);text-decoration:line-through;font-size:14px;margin-top:3px}
+.tier .save{display:inline-block;margin-top:10px;font-size:12px;font-weight:700;color:var(--gold2);background:rgba(232,184,75,.12);padding:4px 12px;border-radius:100px}
+.tier .shares{color:var(--ink3);font-size:12px;margin-top:12px}
+.tier .biz{color:var(--lilac2);font-size:12px;margin-top:6px;font-weight:600}
+.tier .status-perk{margin-top:8px;font-size:11px;font-weight:700;color:var(--gold2);background:rgba(232,184,75,.1);border:1px dashed rgba(232,184,75,.4);border-radius:8px;padding:6px 8px;letter-spacing:.02em}
+.council{margin-top:40px}
+.council-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.council-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px}
+.council-card.flagman{background:linear-gradient(165deg,rgba(232,184,75,.12),var(--card));border-color:var(--gold)}
+.council-card .cc-tier{font-family:'Unbounded';font-weight:700;font-size:17px;color:var(--gold2);margin-bottom:16px}
+.council-card .cc-all{color:var(--lilac2);font-size:13px;font-weight:700;margin-bottom:10px}
+.council-card .cc-list{list-style:none;display:flex;flex-direction:column;gap:11px}
+.council-card .cc-list li{position:relative;padding-left:26px;color:var(--ink2);font-size:14px;line-height:1.5}
+.council-card .cc-list li::before{content:'✦';position:absolute;left:0;top:0;color:var(--gold)}
+@media(max-width:700px){.council-grid{grid-template-columns:1fr}}
+.bigpack{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:24px;background:linear-gradient(150deg,rgba(185,140,255,.12),rgba(232,184,75,.06));border:1px solid var(--line2);border-radius:20px;padding:30px 34px}
+.tier .forecast{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line2);text-align:left}
+.tier .fc-total{text-align:center;margin-bottom:10px}
+.tier .fc-total .fct-cap{font-family:'Unbounded';font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--lilac);margin-bottom:4px}
+.tier .fc-total .fct-v{font-family:'Unbounded';font-weight:800;font-size:24px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+.tier .fc-total .fct-mult{display:inline-block;margin-top:6px;font-family:'Unbounded';font-size:11px;font-weight:700;color:var(--gold2);background:rgba(232,184,75,.14);padding:3px 10px;border-radius:100px}
+.tier .fc-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-top:5px}
+.tier .fc-row .fc-l{color:var(--ink3);font-size:11px;line-height:1.3}
+.tier .fc-row .fc-v{font-family:'Unbounded';font-weight:700;font-size:13px;color:var(--ink);white-space:nowrap}
+.tier .fc-cap{font-family:'Unbounded';font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--lilac);margin-bottom:2px}
+.tier .tier-btn{display:block;width:100%;margin-top:16px;font-family:'Unbounded';font-weight:600;font-size:13px;padding:12px;border-radius:12px;border:none;cursor:pointer;background:var(--grad);color:#1a0f04;transition:.2s}
+.tier .tier-btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px -8px rgba(232,184,75,.5)}
+.tier.feat .tier-btn{box-shadow:0 8px 20px -8px rgba(232,184,75,.4)}
+.scarcity{display:flex;align-items:center;gap:26px;background:linear-gradient(150deg,rgba(232,184,75,.14),rgba(200,16,46,.08));border:1px solid var(--gold);border-radius:20px;padding:28px 32px;margin-bottom:28px}
+.scarcity .sc-fig{font-family:'Unbounded';font-weight:800;font-size:clamp(48px,8vw,72px);line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;flex-shrink:0}
+.scarcity .sc-text h4{font-size:19px;margin-bottom:8px}
+.scarcity .sc-text p{color:var(--ink2);font-size:15px;line-height:1.6}
+.tier .seats{position:absolute;top:14px;right:14px;font-family:'Unbounded';font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;background:rgba(200,16,46,.18);color:#FF9FAF;border:1px solid rgba(200,16,46,.35);padding:4px 10px;border-radius:100px}
+.tier.feat .seats{top:14px}
+.feat-flag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);font-family:'Unbounded';font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;background:var(--grad);color:#1a0f04;padding:5px 14px;border-radius:100px;white-space:nowrap}
+
+.perks{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px}
+.perk{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 24px;transition:.2s}
+.perk:hover{border-color:var(--line2);transform:translateY(-4px)}
+.perk .p-ic{font-size:26px;margin-bottom:14px}
+.perk h4{font-size:17px;margin-bottom:8px}
+.perk p{color:var(--ink2);font-size:14px;line-height:1.6}
+
+.cantons{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:8px}
+.canton{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;transition:.2s}
+.canton:hover{border-color:var(--lilac);background:var(--card2)}
+.canton .cn-name{font-family:'Unbounded';font-weight:600;font-size:16px}
+.canton .cn-pop{color:var(--ink3);font-size:12px;margin-top:5px}
+.canton .cn-tag{display:inline-block;margin-top:10px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;background:rgba(185,140,255,.12);color:var(--lilac2)}
+.canton.taken .cn-tag{background:rgba(120,120,140,.15);color:var(--ink3)}
+.canton.taken .cn-name{color:var(--ink2)}
+
+.privilege{background:linear-gradient(150deg,rgba(232,184,75,.14),rgba(185,140,255,.08));border:1px solid var(--line2);border-radius:24px;padding:44px;margin-top:34px;display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center}
+.privilege h3{font-size:clamp(22px,3.4vw,32px);margin-bottom:18px}
+.privilege p{color:var(--ink2);font-size:16px;line-height:1.65;margin-bottom:14px}
+.priv-badge{background:var(--bg);border:1px solid var(--gold);border-radius:18px;padding:28px;text-align:center}
+.priv-badge .pb-top{font-family:'Unbounded';font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--gold2)}
+.priv-badge .pb-big{font-family:'Unbounded';font-weight:800;font-size:60px;line-height:1;margin:14px 0;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.priv-badge .pb-sub{color:var(--ink2);font-size:14px}
+
+.road{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:8px}
+.euro{margin-top:40px;background:linear-gradient(155deg,var(--card2),var(--bg2));border:1px solid var(--line2);border-radius:24px;padding:36px}
+.euro-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+.euro-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
+.euro-card .ec-country{font-family:'Unbounded';font-weight:600;font-size:15px;margin-bottom:10px}
+.euro-card .ec-num{font-family:'Unbounded';font-weight:800;font-size:30px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.euro-card .ec-note{color:var(--ink3);font-size:12.5px;margin-top:6px;line-height:1.4}
+.euro-total{margin-top:18px;background:rgba(232,184,75,.08);border:1px solid var(--line2);border-radius:16px;padding:8px 22px}
+.euro-total .et-row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.euro-total .et-row:last-child{border-bottom:none}
+.euro-total .et-l{color:var(--ink2);font-size:14px}
+.euro-total .et-v{font-family:'Unbounded';font-weight:700;font-size:17px;color:var(--gold2)}
+.euro-total .et-row.big{flex-direction:column;align-items:flex-start;gap:4px}
+.euro-total .et-row.big .et-v{font-size:clamp(20px,5vw,28px);word-break:break-word;overflow-wrap:break-word;max-width:100%}
+.euro-total .et-row.big .et-l{font-weight:700;color:var(--ink)}
+@media(max-width:700px){.euro-grid{grid-template-columns:1fr}}
+.rstep{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 22px}
+.rstep .when{font-family:'Unbounded';font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--gold2);margin-bottom:12px}
+.rstep h4{font-size:17px;margin-bottom:8px}
+.rstep p{color:var(--ink2);font-size:13.5px;line-height:1.55}
+
+.final{text-align:center;background:linear-gradient(160deg,var(--card2),var(--bg2));border:1px solid var(--line2);border-radius:30px;padding:60px 40px}
+.final h2{font-size:clamp(28px,4.6vw,44px);max-width:18ch;margin:0 auto 18px}
+.final p{color:var(--ink2);font-size:18px;max-width:52ch;margin:0 auto 30px}
+.final .deadline-chip{display:inline-block;margin-bottom:24px;font-family:'Unbounded';font-size:13px;font-weight:600;color:var(--gold2);border:1px solid var(--gold);padding:9px 20px;border-radius:100px}
+
+footer{border-top:1px solid var(--line);padding:40px 0;margin-top:80px;color:var(--ink3);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;align-items:center}
+.disclaimer{margin-top:28px;padding:20px 24px;background:rgba(185,140,255,.06);border:1px solid var(--line);border-radius:14px;color:var(--ink3);font-size:13px;line-height:1.6}
+.chatbox{background:linear-gradient(165deg,var(--card2),var(--bg2));border:1px solid var(--line2);border-radius:24px;padding:28px;box-shadow:var(--shadow)}
+.founder-box{background:linear-gradient(155deg,var(--card2),var(--bg2));border:1px solid var(--line2);border-radius:28px;padding:48px}
+.sell-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:8px}
+.sell-card{background:linear-gradient(160deg,var(--card2),var(--card));border:1px solid var(--line2);border-radius:20px;padding:28px}
+.sell-card .sell-ic{font-size:32px;margin-bottom:14px}
+.sell-card h4{font-family:'Unbounded';font-weight:700;font-size:18px;margin-bottom:10px}
+.sell-card p{color:var(--ink2);font-size:14.5px;line-height:1.55}
+.bizdetails{margin-top:28px;border:1px solid var(--line2);border-radius:18px;background:var(--card);overflow:hidden}
+.bizdetails summary{cursor:pointer;padding:20px 26px;font-family:'Unbounded';font-weight:600;font-size:15px;color:var(--lilac2);list-style:none;transition:.2s}
+.bizdetails summary::-webkit-details-marker{display:none}
+.bizdetails summary:hover{background:rgba(185,140,255,.06)}
+.bizdetails[open] summary{border-bottom:1px solid var(--line2);color:var(--ink)}
+.bizdetails-inner{padding:30px 26px}
+@media(max-width:700px){.sell-grid{grid-template-columns:1fr}}
+.founder-text p{color:var(--ink2);font-size:17px;line-height:1.7;margin-bottom:16px;max-width:62ch}
+.founder-text p:last-child{margin-bottom:0;color:var(--ink);font-style:italic}
+@media(max-width:560px){.founder-box{padding:32px 24px}.founder-text p{font-size:16px}}
+.chat-feed{display:flex;flex-direction:column;gap:12px;margin-bottom:18px;max-height:420px;overflow-y:auto}
+.chat-msg{max-width:85%;padding:14px 18px;border-radius:16px;font-size:15px;line-height:1.55;animation:fade .3s ease}
+.chat-msg.bot{align-self:flex-start;background:var(--card);border:1px solid var(--line);border-bottom-left-radius:5px;color:var(--ink)}
+.chat-msg.user{align-self:flex-end;background:var(--grad);color:#1a0f04;border-bottom-right-radius:5px;font-weight:600}
+.chat-options{display:flex;flex-direction:column;gap:9px}
+.chat-q{text-align:left;background:transparent;border:1px solid var(--line2);color:var(--ink);font-family:'Manrope';font-weight:600;font-size:14px;padding:13px 16px;border-radius:12px;cursor:pointer;transition:.18s}
+.chat-q:hover{background:rgba(185,140,255,.1);border-color:var(--lilac)}
+.chat-back{color:var(--lilac2);font-size:13px;font-weight:600;background:none;border:none;cursor:pointer;padding:8px 0;text-align:left}
+.modal-bg{position:fixed;inset:0;z-index:100;background:rgba(10,5,18,.78);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px}
+.modal-bg.open{display:flex;animation:fade .25s ease}
+.modal{background:linear-gradient(165deg,var(--card2),var(--bg2));border:1px solid var(--line2);border-radius:24px;padding:38px;max-width:460px;width:100%;position:relative;box-shadow:var(--shadow)}
+.modal h3{font-size:24px;margin-bottom:8px}
+.modal .m-sub{color:var(--ink2);font-size:15px;margin-bottom:24px}
+.modal .m-pack{display:inline-block;font-family:'Unbounded';font-size:13px;font-weight:600;color:var(--gold2);background:rgba(232,184,75,.14);padding:6px 14px;border-radius:100px;margin-bottom:20px}
+.modal label{display:block;font-weight:700;font-size:14px;margin-bottom:7px;margin-top:16px}
+.modal input,.modal textarea{width:100%;background:var(--bg);border:1px solid var(--line2);border-radius:12px;padding:13px 15px;color:var(--ink);font-family:'Manrope';font-size:15px;outline:none;transition:.2s}
+.modal input:focus,.modal textarea:focus{border-color:var(--lilac)}
+.modal .m-close{position:absolute;top:18px;right:18px;width:36px;height:36px;border-radius:50%;border:1px solid var(--line2);background:transparent;color:var(--ink2);font-size:18px;cursor:pointer;line-height:1}
+.modal .m-close:hover{background:rgba(185,140,255,.12)}
+.modal .btn{width:100%;justify-content:center;margin-top:24px}
+.modal .m-note{color:var(--ink3);font-size:12px;margin-top:14px;line-height:1.5;text-align:center}
+.modal .m-ok{text-align:center;padding:20px 0}
+.modal .m-ok .ok-ic{font-size:44px;margin-bottom:14px}
+.modal .m-ok h3{margin-bottom:10px}
+.modal .m-ok p{color:var(--ink2);font-size:15px}
+
+@media(max-width:900px){
+  .market,.revstreams,.perks,.road{grid-template-columns:1fr 1fr}
+  .calc-inner,.bizdeal,.privilege,.featgrid{grid-template-columns:1fr;gap:30px}
+  .tiers{grid-template-columns:1fr 1fr}
+  .navlinks{display:none}
+}
+@media(max-width:560px){
+  .market,.revstreams,.perks,.road,.tiers,.rgrid{grid-template-columns:1fr}
+  th,td{padding:11px 12px;font-size:12.5px}
+  .calc-inner{padding:20px}
+  .mission{padding:36px 24px}
+}
+
+/* SKY THEME */
+section:nth-of-type(even){background:var(--sky)}
+/* внутри голубых секций белые карточки → тёмный текст */
+section:nth-of-type(even) .card *,section:nth-of-type(even) .pain-card *,section:nth-of-type(even) .fincard *,section:nth-of-type(even) .sell-card *,section:nth-of-type(even) .spec-card *,section:nth-of-type(even) .ff *,section:nth-of-type(even) .rev *,section:nth-of-type(even) .feat-item *,section:nth-of-type(even) .perk *,section:nth-of-type(even) .tier *,section:nth-of-type(even) .council-card *,section:nth-of-type(even) .euro-card *,section:nth-of-type(even) .nw *,section:nth-of-type(even) .calc *,section:nth-of-type(even) .catalog *,section:nth-of-type(even) .mission *,section:nth-of-type(even) .scarcity *,section:nth-of-type(even) .bizcol *,section:nth-of-type(even) .chartbox *,section:nth-of-type(even) .chart-head *,section:nth-of-type(even) .rstep *,section:nth-of-type(even) .final *,section:nth-of-type(even) .canvas-inner *{color:var(--ink)}
+section:nth-of-type(even) .card h2,section:nth-of-type(even) .card h3,section:nth-of-type(even) .card h4,section:nth-of-type(even) .fincard h3,section:nth-of-type(even) .sell-card h4,section:nth-of-type(even) .tier .tier-name,section:nth-of-type(even) .mission .big-quote{color:var(--ink)}
+/* но акцентные цветные элементы внутри карточек сохраняют свой цвет */
+section:nth-of-type(even) .grad-text,section:nth-of-type(even) .pc-fig,section:nth-of-type(even) .fct-v,section:nth-of-type(even) .ec-num,section:nth-of-type(even) .fct-mult,section:nth-of-type(even) .save,section:nth-of-type(even) .sec-tag{-webkit-text-fill-color:initial}
+section:nth-of-type(even) .grad-text,section:nth-of-type(even) .pc-fig,section:nth-of-type(even) .fct-v,section:nth-of-type(even) .ec-num{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+section:nth-of-type(even) .sec-tag,section:nth-of-type(even) h2,section:nth-of-type(even) h3,section:nth-of-type(even) h4{color:#fff}
+section:nth-of-type(even) p{color:rgba(255,255,255,.92)}
+section:nth-of-type(even) .card,section:nth-of-type(even) .pain-card,section:nth-of-type(even) .fincard,section:nth-of-type(even) .sell-card,section:nth-of-type(even) .spec-card,section:nth-of-type(even) .ff,section:nth-of-type(even) .rev,section:nth-of-type(even) .feat-item,section:nth-of-type(even) .perk,section:nth-of-type(even) .tier,section:nth-of-type(even) .council-card,section:nth-of-type(even) .euro-card,section:nth-of-type(even) .nw,section:nth-of-type(even) .calc,section:nth-of-type(even) .catalog{background:#fff;border-color:rgba(255,255,255,.5)}
+.btn-primary{background:var(--gold)!important;color:#fff!important;background-image:none!important}
+.btn-primary:hover{background:var(--gold2)!important}
+.btn-ghost{border-color:var(--line2);color:var(--ink)}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pc-fig,.fct-v,.ec-num,.br-val.pos{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.dot{background:var(--gold)!important}
+.deadline{background:var(--sky);color:#fff;border:none}
+.deadline b{color:#fff}
+nav{background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.logo{color:var(--ink)}
+.navlinks a{color:var(--ink2)}
+.navlinks a:hover,.navlinks a.active{color:#fff;background:var(--sky)}
+
+
+section:nth-of-type(even) .final h2{color:var(--ink)}section:nth-of-type(even) .final p{color:var(--ink2)}section:nth-of-type(even) .final .sec-tag{color:var(--lilac)}
+
+section:nth-of-type(even) .chartbox h3,section:nth-of-type(even) .chartbox h4{color:var(--ink)}section:nth-of-type(even) .chartbox p{color:var(--ink2)}section:nth-of-type(even) .chartbox .sec-tag{color:var(--lilac)}
+</style>
+</head>
+<body>
+<div class="backdrop"></div>
+
+<div class="deadline">🔥 Цены на пакеты действуют <b>только до 10 октября</b>. С началом монетизации стоимость вырастет вдвое.</div>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="dot"></span>SVOI</div>
+    <div class="navlinks">
+      <a href="svoi-platforma.html">О платформе</a>
+      <a href="#founder">Основатель</a>
+      <a href="#status">Акции</a>
+      <a href="#invest">Тарифы</a>
+      <a href="#faq">Вопросы</a>
+    </div>
+    <div class="lang-sw">
+      <button class="lang-btn active" data-lang="ru" onclick="setLang('ru',this)">RU</button>
+      <button class="lang-btn" data-lang="de" onclick="setLang('de',this)">DE</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en',this)">EN</button>
+      <button class="lang-btn" data-lang="fr" onclick="setLang('fr',this)">FR</button>
+      <button class="lang-btn" data-lang="it" onclick="setLang('it',this)">IT</button>
+    </div>
+    <a href="#invest" class="btn btn-primary" style="padding:11px 18px;font-size:14px" onclick="event.preventDefault();openApply('Пакет сооснователя')">Войти в долю</a>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow"><span class="pulse"></span>Aktiengesellschaft · Швейцария → Европа</div>
+    <h1>Наконец-то <span class="grad-text">SVOIх</span> легко найти в Швейцарии 🇨🇭</h1>
+    <p class="lede">SVOI — платформа сообщества людей со всего постсоветского пространства, живущих в Швейцарии. Мы объединяем то, что сейчас разбросано по сотням чатов, и строим это как акционерное общество, где лидеры мнений, активисты и кантональные организаторы становятся настоящими сооснователями — и растут вместе с сообществом.</p>
+    <div class="cta-row">
+      <a href="https://svoi.ch" target="_blank" rel="noopener" class="btn btn-primary">Посмотреть MVP платформы ↗</a>
+    </div>
+    <div class="market">
+      <div class="mstat"><div class="num">130 000+</div><div class="lbl">людей со всего постсоветского пространства, живущих в Швейцарии</div></div>
+      <div class="mstat"><div class="num">растёт</div><div class="lbl">сообщество последних лет пополнилось самой крупной новой волной за десятилетия</div></div>
+      <div class="mstat"><div class="num">~380</div><div class="lbl">чатов и групп, по которым сейчас разрознено сообщество</div></div>
+      <div class="mstat"><div class="num">~1 000</div><div class="lbl">бизнесов и услуг сообщества, которым нужен единый канал к аудитории</div></div>
+    </div>
+  </div>
+</header>
+
+<section id="founder">
+  <div class="wrap">
+    <div class="founder-box">
+      <div class="sec-tag" style="margin-bottom:16px">Основатель</div>
+      <h2 style="font-size:clamp(24px,4vw,40px);margin-bottom:24px">Почему я это делаю</h2>
+      <div class="founder-text">
+        <p>Меня зовут <b style="color:var(--gold2)">Ксения Чудина</b>, я затейщик и бустер «Своих».</p>
+        <p>Я сама много лет состояла в таком сообществе — и знаю, как нелегко было найти его даже в родной стране. А в другой стране это ещё сложнее: найти своих, собрать вокруг себя качественное окружение с позитивным мышлением, нацеленное на рост и развитие. Найти товары и услуги, которые тебе привычны и понятны. Это настоящая потребность, которую я прожила сама.</p>
+        <p>Я верю в простую философию: <b style="color:var(--ink)">свои покупают у своих</b> — поддерживают друг друга, растут вместе, передают опыт по кругу.</p>
+        <p>Сегодня сообщество разбросано по тысячам чатов. Каждый день в сотнях из них задают одни и те же очевидные вопросы. Я вижу эту проблему — и хочу дать сообществу <b style="color:var(--gold2)">«жёлтые страницы» нового времени</b>: продвинутую, живую версию, которую мы строим внутри платформы «Свои».</p>
+        <p>Я готовила этот проект 4 года. И я рада, что сейчас мы наконец готовы нести пользу по-настоящему.</p>
+      </div>
+      <a href="https://chudina.me" target="_blank" rel="noopener" class="btn btn-ghost" style="margin-top:26px">Обо мне · Chudina.me ↗</a>
+    </div>
+  </div>
+</section>
+
+<section id="mission">
+  <div class="wrap">
+    <div class="mission">
+      <div class="big-quote">«Мы так долго искали <span class="grad-text">своих</span>»</div>
+      <p>На каждой встрече сообщества звучит одно и то же: искали своих, не находили — родных по языку, по опыту, по ценностям. Это настоящая боль переезда. «Свои» закрывают её: одно место, где ты находишь людей, специалистов, бизнесы и поддержку. Мы начинаем в Швейцарии — но строим платформу, которую понесём дальше, по всей Европе и везде, где живут свои.</p>
+      <div class="name-why">
+        <div class="nw"><div class="nw-t">Почему платформа SVOI — это «Свои»</div><div class="nw-d">«Свои» — слово, которое люди уже произносят сами, когда описывают, чего им не хватает за границей. Так и родилось имя платформы.</div></div>
+        <div class="nw"><div class="nw-t">Почему сейчас</div><div class="nw-d">Сообщество выросло до сотен тысяч человек, но осталось без единого центра. Время собрать его.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="platform">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">Что такое платформа SVOI</div>
+      <h2>Не ещё один чат. Платформа SVOI — инфраструктура сообщества</h2>
+      <p>В Швейцарии живут давно осевшие специалисты крупных компаний (инженеры и айтишники в ABB, Google Zürich, фарме Базеля, банках Цюриха и Женевы), учёные ETH и EPFL, врачи, артисты, предприниматели и недавно переехавшие. Люди со всего постсоветского пространства — десятки тысяч, без единого пространства. Платформа SVOI даёт им его — место, где наконец легко найти своих.</p>
+    </div>
+    <div class="featgrid">
+      <div class="feat-item"><div class="ic">🗂️</div><div><h4>Каталог бизнесов и услуг</h4><p>Проверенные бизнесы сообщества в Швейцарии в одном месте. Участники находят, бизнесы получают клиентов.</p></div></div>
+      <div class="feat-item"><div class="ic">🔄</div><div><h4>Биржа услуг и Buddy-помощь</h4><p>Запросы и предложения помощи, наставники-«бади» для новоприбывших, обмен опытом — живой p2p-слой сообщества.</p></div></div>
+      <div class="feat-item"><div class="ic">🎓</div><div><h4>Уровень «Бизнес»</h4><p>Закрытые блоки платформы: обучающие материалы, лекции, прикладные знания о деньгах и жизни в Швейцарии.</p></div></div>
+      <div class="feat-item"><div class="ic">🎟️</div><div><h4>Программа лояльности</h4><p>Участники копят бонусные баллы и списывают их на наши мероприятия, форумы и сервисы партнёров.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="model">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">Возможность</div>
+      <h2>Стать сооснователем платформы SVOI</h2>
+      <p>Это не донат и не краудфандинг. Вы получаете долю в швейцарской AG — компании, которая строит инфраструктуру для целого сообщества. Такого предложения для нашей аудитории ещё не было.</p>
+    </div>
+    <div class="sell-grid">
+      <div class="sell-card"><h4>Доля в швейцарской AG</h4><p>Не обещание, а реальные именные акции компании, зарегистрированной в Швейцарии. Престиж и надёжность швейцарской юрисдикции.</p></div>
+      <div class="sell-card"><h4>Такого ещё не было</h4><p>Впервые сообщество строит общую платформу как акционерное общество — и зовёт SVOIх в долю на старте, а не после успеха.</p></div>
+      <div class="sell-card"><h4>Доля в денежном потоке</h4><p>Платформа зарабатывает сразу с нескольких сторон — подписки, бизнесы, форумы. Вы входите в реальную экономику, а не в идею.</p></div>
+      <div class="sell-card"><h4>На старте, до роста цены</h4><p>Сейчас — ранний вход по цене основателя. Впереди вся Европа: рынок в десятки раз больше швейцарского.</p></div>
+    </div>
+
+    <details class="bizdetails">
+      <summary>Если интересно — посмотреть, как платформа зарабатывает →</summary>
+      <div class="bizdetails-inner">
+        <p style="color:var(--ink2);font-size:15px;line-height:1.6;margin-bottom:24px">Платформа зарабатывает сразу с нескольких сторон — поэтому модель устойчива и не зависит от одного источника.</p>
+        <div class="revstreams">
+          <div class="rev"><div class="rev-n">Поток 01</div><h4>Подписка участников</h4><div class="rev-fig">19 CHF/мес</div><p>Активный участник платит за доступ к сообществу, каталогу, бирже и закрытым блокам. Ядро регулярного дохода.</p></div>
+          <div class="rev"><div class="rev-n">Поток 02</div><h4>Размещение бизнесов</h4><div class="rev-fig">199 CHF разово</div><p>Бизнес единоразово платит за карточку в каталоге. По нашим оценкам — порядка 1 000 бизнесов сообщества в Швейцарии.</p></div>
+          <div class="rev"><div class="rev-n">Поток 03</div><h4>Форумы Frankenplatz</h4><div class="rev-fig">2 в год</div><p>Крупные офлайн-события под эгидой платформы. Первый — октябрь 2026, ориентир 500 человек. Дальше — регулярно.</p></div>
+        </div>
+        <div class="sec-head" style="margin-top:48px;margin-bottom:24px">
+          <h2 style="font-size:clamp(22px,3.4vw,32px)">Одно размещение вместо рекламы в 380 чатах</h2>
+          <p>Чтобы оповестить сообщество о себе сегодня, бизнесу нужно вручную закупать рекламу в сотнях разрозненных групп.</p>
+        </div>
+        <div class="bizdeal">
+          <div class="bizcol bad">
+            <div class="bc-tag">Как сейчас</div>
+            <div class="bc-fig" style="color:#FF8095">3 000+ CHF</div>
+            <p>Реклама во всех ~380 чатах сообщества — дорого, разово, без гарантий, и через неделю всё забыто. Каждый раз заново.</p>
+          </div>
+          <div class="bizcol good">
+            <div class="bc-tag">Со «Своими»</div>
+            <div class="bc-fig grad-text">199 CHF</div>
+            <p>Единоразовое размещение в каталоге — и бизнес постоянно на виду у платящей аудитории. Подписчики получают скидки, бизнес — поток клиентов. Выигрывают все.</p>
+          </div>
+        </div>
+        <div class="featgrid" style="margin-top:24px">
+          <div class="feat-item"><div class="ic">🤝</div><div><h4>30% — кантональному представителю</h4><p>Когда бизнес заводит региональный или национальный представитель, 30% дохода от размещения идёт ему. Сеть растёт сама.</p></div></div>
+          <div class="feat-item"><div class="ic">💳</div><div><h4>Скидки через подписку</h4><p>Участники с подпиской пользуются товарами и услугами бизнесов из каталога со скидками — это возвращает ценность подписчику и приводит клиентов бизнесу.</p></div></div>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<section id="status">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">Статус</div>
+      <h2>Быть акционером швейцарской AG — это статус</h2>
+      <p>Прежде чем считать доход — про саму суть. Покупая пакет, ты становишься совладельцем компании, зарегистрированной в одной из самых надёжных юрисдикций мира. И для этого <b style="color:var(--gold2)">не обязательно жить в Швейцарии</b>.</p>
+    </div>
+    <div class="perks">
+      <div class="perk"><div class="p-ic">🇨🇭</div><h4>Швейцарская юрисдикция</h4><p>Доля в Aktiengesellschaft — активе в стабильной валюте и правовой системе с репутацией мирового стандарта надёжности.</p></div>
+      <div class="perk"><div class="p-ic">🌍</div><h4>Гражданство не требуется</h4><p>Акционером швейцарской AG может стать человек из любой страны. Жить или иметь паспорт Швейцарии для этого не нужно.</p></div>
+      <div class="perk"><div class="p-ic">🔐</div><h4>Приватность владения</h4><p>Акционеры AG не отражаются в публичном реестре — данные хранятся во внутренней книге акций компании.</p></div>
+      <div class="perk"><div class="p-ic">📜</div><h4>Реальная доля, а не обещание</h4><p>Именные акции с записью в книге акционеров (Aktienbuch), приоритетным правом на дивиденды и понятными условиями.</p></div>
+      <div class="perk"><div class="p-ic">💶</div><h4>Доход в франках</h4><p>Дивиденды и рост стоимости — в швейцарских франках, одной из самых крепких валют мира.</p></div>
+      <div class="perk"><div class="p-ic">🤝</div><h4>Причастность к своему</h4><p>Это не абстрактная инвестиция, а доля в сообществе, частью которого ты являешься и на рост которого влияешь.</p></div>
+    </div>
+
+    <!-- SHARE TYPES -->
+    <div class="sec-head" style="margin-top:64px;margin-bottom:28px">
+      <div class="sec-tag">Какие именно акции</div>
+      <h2 style="font-size:clamp(24px,3.6vw,36px)">Привилегированные именные акции</h2>
+      <p>Совладельцы сообщества получают не обычные, а привилегированные акции — с приоритетом по деньгам. Вот что это значит простыми словами.</p>
+    </div>
+    <div class="featgrid">
+      <div class="feat-item"><div class="ic">⭐</div><div><h4>Класс «Основатели»</h4><p>Первые 10% компании, поделённые на 200 пакетов по ранней цене. Привилегированные акции с приоритетом по дивидендам — для тех, кто входит в самом начале. Следующие выпуски пойдут уже дороже, по рыночной цене.</p></div></div>
+      <div class="feat-item"><div class="ic">📖</div><div><h4>Namenaktien — именные</h4><p>Каждая акция закреплена за конкретным владельцем записью в книге акций компании (Aktienbuch). Это твоя задокументированная доля, а не обезличенная бумага.</p></div></div>
+      <div class="feat-item"><div class="ic">🔒</div><div><h4>Vinkulierung — защита от чужих</h4><p>Пакет нельзя перепродать третьим лицам без согласия компании. Доля остаётся в руках тех, кто реально растит сообщество, — без случайных людей в составе.</p></div></div>
+      <div class="feat-item"><div class="ic">💯</div><div><h4>100% выплата на блок</h4><p>Весь блок «Основателей» — это 10% компании. Вся прибыль, приходящаяся на эти 10%, распределяется между держателями пакетов целиком, год за годом.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="invest">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">Стать совладельцем</div>
+      <h2>Доля в сообществе для тех, кто его двигает</h2>
+      <p>Это предложение для лидеров мнений и активистов сообщества в Швейцарии — тех, кому совладение выгоднее всего, потому что они и так влияют на сообщество. Базовый вход — 1 000 акций AG за 500 CHF, привилегированные именные акции с приоритетным правом на дивиденды. Приобретение — по заявке: мы знакомимся, одобряем, и ты сам оформляешь покупку акций напрямую. Подвигай ползунки, чтобы увидеть потенциал.</p>
+    </div>
+
+    <!-- GROWTH CHART -->
+    <div class="chartbox">
+      <div class="chart-head">
+        <div>
+          <div class="sec-tag" style="margin-bottom:10px">Почему входить сейчас</div>
+          <h3 style="font-size:clamp(20px,3vw,28px)">Стоимость пакета растёт вместе с сообществом</h3>
+          <p style="color:var(--ink2);font-size:15px;margin-top:10px;max-width:52ch">Сегодня базовый пакет стоит <b style="color:var(--gold2)">500 CHF</b>. Чем больше у платформы активных подписчиков, тем выше капитализация — и тем дороже тот же пакет. Кто входит раньше, платит меньше.</p>
+        </div>
+      </div>
+      <canvas id="growthChart" height="340"></canvas>
+      <div class="chart-legend">
+        <span><i style="background:var(--gold)"></i> Цена входа сегодня (500 CHF)</span>
+        <span><i style="background:var(--lilac)"></i> Стоимость пакета при данном числе подписчиков</span>
+      </div>
+    </div>
+
+    <div class="tabs" role="tablist" style="margin-top:40px">
+      <button class="active" data-page="owner">Основатель</button>
+      <button data-page="canton">Кантональная франшиза</button>
+      <button data-page="euro">Выход в Европу</button>
+    </div>
+
+    <div class="page active" id="page-owner">
+      <div class="calc">
+        <div class="calc-inner">
+          <div class="calc-controls">
+            <h3>Калькулятор совладельца</h3>
+            <div class="sub">Привилегированные акции · выплата 100% дивидендов на блок</div>
+            <div class="field">
+              <div class="flabel"><span>Сколько пакетов беру</span><span class="val" id="o-packs-val">1 пакет</span></div>
+              <div class="chips" id="o-packs">
+                <button class="chip active" data-p="1">1</button>
+                <button class="chip" data-p="2">2</button>
+                <button class="chip" data-p="3">3</button>
+                <button class="chip" data-p="5">5</button>
+                <button class="chip" data-p="10">10</button>
+              </div>
+            </div>
+            <div class="field">
+              <div class="flabel"><span>Подписчиков на платформе</span><span class="val" id="o-subs-val">10 000</span></div>
+              <input type="range" id="o-subs" min="2000" max="15000" step="500" value="10000">
+            </div>
+            <div class="field">
+              <div class="flabel"><span>Горизонт</span><span class="val" id="o-year-val">5 лет</span></div>
+              <input type="range" id="o-year" min="1" max="5" step="1" value="5">
+            </div>
+            <div class="rnote">Расчёт приблизительный, исходя из числа подписчиков и темпа роста платформы — может меняться в любую сторону. Не гарантия доходности.</div>
+          </div>
+          <div class="result">
+            <div class="rtitle">Что получает твой пакет</div>
+            <div class="bigfig">
+              <div class="cap">Возможная выгода за срок</div>
+              <div class="amount" id="o-value">—</div>
+              <div id="o-mult" style="display:inline-block;margin-top:10px;font-family:'Unbounded';font-weight:700;font-size:15px;color:var(--gold2);background:rgba(232,184,75,.14);padding:6px 16px;border-radius:100px">—</div>
+            </div>
+            <div class="rgrid">
+              <div class="rcell accent" style="grid-column:1/-1"><div class="c-lbl">Стоимость пакета к концу срока</div><div class="c-val" id="o-packval" style="font-size:30px">—</div></div>
+              <div class="rcell accent"><div class="c-lbl">Дивиденды накоплено</div><div class="c-val" id="o-divcum">—</div></div>
+              <div class="rcell"><div class="c-lbl">Капитализация компании</div><div class="c-val" id="o-cap">—</div></div>
+              <div class="rcell"><div class="c-lbl">Вложено сейчас</div><div class="c-val" id="o-invested">—</div></div>
+            </div>
+            <div class="rnote" id="o-summary"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="yeartable">
+        <div class="tt"><h4>История по годам</h4><span class="badge">Быстрый сценарий · суммы в CHF</span></div>
+        <div style="overflow-x:auto">
+        <table>
+          <thead><tr><th>Год</th><th>Подписч.</th><th>% рынка</th><th>Капит.,&nbsp;тыс</th><th>Дивиденды</th><th>Стоимость пакета</th></tr></thead>
+          <tbody id="o-tbody"></tbody>
+        </table>
+        </div>
+      </div>
+
+      <div class="sec-head" style="margin-top:60px;margin-bottom:28px">
+        <div class="sec-tag">Прогрессивная шкала · только до 10 октября</div>
+        <h2 style="font-size:clamp(24px,3.6vw,36px)">Чем больше пакетов — тем выгоднее вход</h2>
+      </div>
+
+      <div class="scarcity">
+        <div class="sc-fig">200</div>
+        <div class="sc-text">
+          <h4>«Основатели» — всего 200 пакетов</h4>
+          <p>Это круг основателей «Своих»: 10% компании, поделённые ровно на 200 пакетов по особой ранней цене. Когда они разойдутся, войти в долю как основатель будет невозможно — следующие выпуски акций пойдут уже по рыночной цене. Чем крупнее тариф — тем меньше мест.</p>
+        </div>
+      </div>
+      <div class="tiers">
+        <div class="tier"><span class="seats">доступно 55</span><div class="tier-name">Старт</div><div class="packs">1<small>пакет</small></div><div class="price"><div class="p-now">500 CHF</div></div><div class="shares">1 000 акций · 0,05%</div><div class="biz">🎁 бонус основателю: 1 бизнес/услуга в каталоге</div><div class="forecast"><div class="fc-total"><div class="fct-cap">Возможная выгода за 5 лет</div><div class="fct-v">8 028 CHF</div><span class="fct-mult">×16 от вложенного</span></div><div class="fc-row"><span class="fc-l">Дивиденды</span><span class="fc-v">3 741 CHF</span></div><div class="fc-row"><span class="fc-l">Стоимость пакета</span><span class="fc-v">4 286 CHF</span></div></div><button class="tier-btn" onclick="openApply('Старт · 1 пакет')">Подать заявку</button></div>
+        <div class="tier"><span class="seats">доступно 25</span><div class="tier-name">Дуо</div><div class="packs">2<small>пакета</small></div><div class="price"><div class="p-now">970 CHF</div><div class="p-old">1 000 CHF</div></div><span class="save">−3%</span><div class="shares">2 000 акций · 0,10%</div><div class="biz">🎁 бонус основателю: 2 бизнеса/услуги в каталоге</div><div class="forecast"><div class="fc-total"><div class="fct-cap">Возможная выгода за 5 лет</div><div class="fct-v">16 055 CHF</div><span class="fct-mult">×17 от вложенного</span></div><div class="fc-row"><span class="fc-l">Дивиденды</span><span class="fc-v">7 483 CHF</span></div><div class="fc-row"><span class="fc-l">Стоимость пакета</span><span class="fc-v">8 572 CHF</span></div></div><button class="tier-btn" onclick="openApply('Дуо · 2 пакета')">Подать заявку</button></div>
+        <div class="tier feat"><span class="seats">доступно 15</span><div class="feat-flag">популярный</div><div class="tier-name">Актив</div><div class="packs">3<small>пакета</small></div><div class="price"><div class="p-now">1 425 CHF</div><div class="p-old">1 500 CHF</div></div><span class="save">−5%</span><div class="shares">3 000 акций · 0,15%</div><div class="biz">🎁 бонус основателю: 3 бизнеса/услуги в каталоге</div><div class="forecast"><div class="fc-total"><div class="fct-cap">Возможная выгода за 5 лет</div><div class="fct-v">24 083 CHF</div><span class="fct-mult">×18 от вложенного</span></div><div class="fc-row"><span class="fc-l">Дивиденды</span><span class="fc-v">11 224 CHF</span></div><div class="fc-row"><span class="fc-l">Стоимость пакета</span><span class="fc-v">12 859 CHF</span></div></div><button class="tier-btn" onclick="openApply('Актив · 3 пакета')">Подать заявку</button></div>
+        <div class="tier"><span class="seats">доступно 6</span><div class="tier-name">Амбассадор</div><div class="packs">5<small>пакетов</small></div><div class="price"><div class="p-now">2 325 CHF</div><div class="p-old">2 500 CHF</div></div><span class="save">−7%</span><div class="shares">5 000 акций · 0,25%</div><div class="biz">🎁 бонус основателю: 5 бизнесов/услуг в каталоге</div><div class="status-perk">↩︎ Опция обратного выкупа через 2 года по цене покупки</div><div class="status-perk">⭐ Совет основателей · VIP на форумах</div><div class="forecast"><div class="fc-total"><div class="fct-cap">Возможная выгода за 5 лет</div><div class="fct-v">40 138 CHF</div><span class="fct-mult">×17 от вложенного</span></div><div class="fc-row"><span class="fc-l">Дивиденды</span><span class="fc-v">18 707 CHF</span></div><div class="fc-row"><span class="fc-l">Стоимость пакета</span><span class="fc-v">21 431 CHF</span></div></div><button class="tier-btn" onclick="openApply('Амбассадор · 5 пакетов')">Подать заявку</button></div>
+        <div class="tier"><span class="seats" style="background:rgba(200,16,46,.3);color:#FFC2CD">только 2</span><div class="tier-name">Флагман</div><div class="packs">10<small>пакетов</small></div><div class="price"><div class="p-now">4 550 CHF</div><div class="p-old">5 000 CHF</div></div><span class="save">−9%</span><div class="shares">10 000 акций · 0,50%</div><div class="biz">🎁 бонус основателю: 7 бизнесов/услуг в каталоге</div><div class="status-perk">↩︎ Опция обратного выкупа через 2 года по цене покупки</div><div class="status-perk">👑 Совет основателей · личный доступ · VIP + гала-ужины</div><div class="forecast"><div class="fc-total"><div class="fct-cap">Возможная выгода за 5 лет</div><div class="fct-v">80 275 CHF</div><span class="fct-mult">×17 от вложенного</span></div><div class="fc-row"><span class="fc-l">Дивиденды</span><span class="fc-v">37 413 CHF</span></div><div class="fc-row"><span class="fc-l">Стоимость пакета</span><span class="fc-v">42 862 CHF</span></div></div><button class="tier-btn" onclick="openApply('Флагман · 10 пакетов')">Подать заявку</button></div>
+      </div>
+      <p style="color:var(--ink3);font-size:12.5px;margin-top:14px;line-height:1.5">«Возможная выгода за 5 лет» = дивиденды + стоимость пакета к 5 году. Расчёт приблизительный, по «быстрому» сценарию роста — может меняться в любую сторону, не гарантия доходности.</p>
+
+      <div class="council">
+        <div class="sec-head" style="margin-bottom:24px">
+          <div class="sec-tag">Статус для топ-основателей</div>
+          <h2 style="font-size:clamp(24px,3.6vw,36px)">Совет основателей</h2>
+          <p>Держатели крупных пакетов входят в ближний круг проекта. Это не юридический орган управления, а закрытый клуб тех, кто стоял у истоков, — со статусом, доступом и привилегиями.</p>
+        </div>
+        <div class="council-grid">
+          <div class="council-card">
+            <div class="cc-tier">Амбассадор · 5 пакетов</div>
+            <ul class="cc-list">
+              <li>Место в Совете основателей — закрытый чат и регулярные встречи</li>
+              <li><b style="color:var(--ink)">Участие в стратегических сессиях и решениях</b> платформы: обсуждение планов, новых направлений и развития сообщества с совещательным голосом</li>
+              <li>Первыми узнаёте о новых раундах, странах и решениях</li>
+              <li>Приоритетное право докупить долю в следующих выпусках</li>
+              <li><b style="color:var(--gold2)">Имя в числе основателей — на сайте и во всех информационных материалах</b> платформы (для тех, кто готов к публичности)</li>
+              <li>Расширенные бонусы платформы и доступ ко всем закрытым блокам</li>
+              <li>VIP-места на форумах</li>
+            </ul>
+          </div>
+          <div class="council-card flagman">
+            <div class="cc-tier">👑 Флагман · 10 пакетов</div>
+            <div class="cc-all">Всё, что у Амбассадора, плюс:</div>
+            <ul class="cc-list">
+              <li>Личные стратегические сессии с основателем один на один</li>
+              <li><b style="color:var(--gold2)">Имя среди ключевых основателей</b> — особое, выделенное упоминание на сайте и во всех материалах платформы</li>
+              <li>Максимальный приоритет в праве докупить долю</li>
+              <li>Почётный статус на форумах и закрытые гала-ужины</li>
+            </ul>
+          </div>
+        </div>
+        <p style="color:var(--ink3);font-size:12.5px;margin-top:16px;line-height:1.5">Совет основателей — совещательный клуб, а не Verwaltungsrat: он не несёт юридической ответственности и не заменяет органы управления компании. Привилегии закрепляются договором с держателем пакета.</p>
+      </div>
+
+      <div class="sec-head" style="margin-top:60px;margin-bottom:28px">
+        <div class="sec-tag">Привилегии владельца</div>
+        <h2 style="font-size:clamp(24px,3.6vw,36px)">Пакет — это не только акции</h2>
+      </div>
+      <div class="perks">
+        <div class="perk"><div class="p-ic">🏷️</div><h4>Размещение своего бизнеса — бонус</h4><p>Каждый пакет включает размещение одного своего бизнеса или услуги в каталоге как бонус основателю. 3 пакета — 3 бизнеса/услуги.</p></div>
+        <div class="perk"><div class="p-ic">🥂</div><h4>Закрытые мероприятия</h4><p>Эксклюзивные события только для владельцев: нетворкинг, встречи с экспертами, обсуждение развития платформы.</p></div>
+        <div class="perk"><div class="p-ic">🔓</div><h4>Доступ к уровню «Бизнес»</h4><p>Полный доступ к закрытым блокам платформы — обучающие материалы, лекции, прикладные знания — без отдельной подписки.</p></div>
+        <div class="perk"><div class="p-ic">💰</div><h4>Приоритетные дивиденды</h4><p>Привилегированные акции «Основателей»: вся прибыль, приходящаяся на блок, распределяется между держателями.</p></div>
+        <div class="perk"><div class="p-ic">↩︎</div><h4>Опция обратного выкупа</h4><p>Для крупных пакетов (Амбассадор, Флагман) — возможность через 2 года предложить пакет к выкупу компании по цене покупки. Страховка вложенного при наличии свободных средств.</p></div>
+        <div class="perk"><div class="p-ic">📈</div><h4>Рост стоимости доли</h4><p>Пакет дорожает вместе с капитализацией компании. Ты влияешь на этот рост напрямую, продвигая платформу.</p></div>
+        <div class="perk"><div class="p-ic">🏛️</div><h4>Комнаты в представительствах</h4><p>В будущих кантональных локациях владельцы смогут бесплатно проводить свои встречи и мероприятия раз в квартал.</p></div>
+      </div>
+
+      <div class="privilege">
+        <div>
+          <h3>Почему это выгодно именно лидерам мнений</h3>
+          <p>Ты и так влияешь на сообщество — рассказываешь, рекомендуешь, собираешь людей. Как совладелец ты делаешь то же самое, но теперь <b style="color:var(--gold2)">рост платформы напрямую увеличивает стоимость твоего пакета и твои дивиденды</b>.</p>
+          <p>Это превращает твою аудиторию и репутацию в долю в активе — вместо разовых охватов ты получаешь растущий капитал в швейцарской AG.</p>
+        </div>
+        <div class="priv-badge">
+          <div class="pb-top">Выплата дивидендов</div>
+          <div class="pb-big">100%</div>
+          <div class="pb-sub">доли прибыли блока — держателям пакетов</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-canton">
+      <div class="calc">
+        <div class="calc-inner">
+          <div class="calc-controls">
+            <h3>Калькулятор кантона</h3>
+            <div class="sub">Роялти с подписок + 30% с размещений + доля в компании</div>
+            <div class="field">
+              <div class="flabel"><span>Уровень кантона (франшиза)</span><span class="val" id="c-fee-val">5 000 CHF</span></div>
+              <div class="chips" id="c-fee" style="flex-direction:column;align-items:stretch">
+                <button class="chip active" data-f="5000" style="text-align:left">Цюрих / Женева · 5 000 CHF</button>
+                <button class="chip" data-f="3500" style="text-align:left">Берн · Во · Базель · Люцерн · Романди · 3 500 CHF</button>
+                <button class="chip" data-f="2000" style="text-align:left">Остальные кантоны · 2 000 CHF</button>
+              </div>
+            </div>
+            <div class="field">
+              <div class="flabel"><span>Платящих подписчиков в кантоне</span><span class="val" id="c-subs-val">1 000</span></div>
+              <input type="range" id="c-subs" min="100" max="3000" step="50" value="1000">
+            </div>
+            <div class="field">
+              <div class="flabel"><span>Бизнесов привёл в каталог / год</span><span class="val" id="c-biz-val">30</span></div>
+              <input type="range" id="c-biz" min="0" max="150" step="5" value="30">
+            </div>
+            <div class="field">
+              <div class="flabel"><span>Платных мероприятий / год</span><span class="val" id="c-ev-val">4</span></div>
+              <input type="range" id="c-ev" min="0" max="24" step="1" value="4">
+            </div>
+            <div class="field">
+              <div class="flabel"><span>Гостей на бесплатных встречах / год</span><span class="val" id="c-free-val">200</span></div>
+              <input type="range" id="c-free" min="0" max="2000" step="50" value="200">
+            </div>
+            <div class="field">
+              <div class="flabel"><span>Пакетов акций сверху</span><span class="val" id="c-packs-val">3 пакета</span></div>
+              <input type="range" id="c-packs" min="0" max="10" step="1" value="3">
+            </div>
+            <div class="rnote">Кантональный организатор — это франшиза, а не найм. Доход: <b style="color:var(--gold2)">10% роялти с платящих подписчиков</b> региона + 30% с приведённых бизнесов + <b style="color:var(--gold2)">70% прибыли с платных мероприятий</b> и фикс с бесплатных встреч + дивиденды с акций.</div>
+          </div>
+          <div class="result">
+            <div class="rtitle">Твой доход организатора</div>
+            <div class="bigfig">
+              <div class="cap">Совокупно в год</div>
+              <div class="amount" id="c-total">—</div>
+            </div>
+            <div class="rgrid">
+              <div class="rcell accent"><div class="c-lbl">Роялти с подписок / год</div><div class="c-val" id="c-roy-amount">—</div></div>
+              <div class="rcell accent"><div class="c-lbl">Мероприятия / год</div><div class="c-val" id="c-ev-amount">—</div></div>
+              <div class="rcell"><div class="c-lbl">30% с бизнесов / год</div><div class="c-val" id="c-biz-amount">—</div></div>
+              <div class="rcell"><div class="c-lbl">Дивиденды с акций / год</div><div class="c-val" id="c-div-amount">—</div></div>
+              <div class="rcell"><div class="c-lbl">Вход (франшиза + акции)</div><div class="c-val" id="c-entry">—</div></div>
+            </div>
+            <div class="rnote" id="c-summary"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec-head" style="margin-top:60px;margin-bottom:24px">
+        <div class="sec-tag">Карта возможностей</div>
+        <h2 style="font-size:clamp(24px,3.6vw,36px)">Большие кантоны открыты для организаторов</h2>
+        <p>Каждый кантон — отдельное направление со своим организатором-совладельцем. Цифры — украинцы со статусом S (данные SEM) как ориентир размера русскоязычного присутствия; реальная аудитория шире за счёт давно осевших жителей со всего постсоветского пространства.</p>
+      </div>
+      <div class="cantons" id="canton-list"></div>
+    </div>
+
+    <div class="page" id="page-euro">
+      <div class="calc">
+        <div class="calc-inner">
+          <div class="calc-controls">
+            <h3>Калькулятор выхода в Европу</h3>
+            <div class="sub">Тот же пакет, но платформа выходит на рынки ближнего круга</div>
+            <div class="field">
+              <div class="flabel"><span>Твой пакет</span><span class="val" id="e-packs-val">1 пакет</span></div>
+              <div class="chips" id="e-packs">
+                <button class="chip active" data-p="1">1</button>
+                <button class="chip" data-p="2">2</button>
+                <button class="chip" data-p="3">3</button>
+                <button class="chip" data-p="5">5</button>
+                <button class="chip" data-p="10">10</button>
+              </div>
+            </div>
+            <div class="field">
+              <div class="flabel"><span>Страны расширения</span></div>
+              <div class="chips" id="e-countries" style="flex-direction:column;align-items:stretch">
+                <button class="chip active" data-c="de" style="text-align:left">🇩🇪 Германия · ~4 млн</button>
+                <button class="chip" data-c="fr" style="text-align:left">🇫🇷 Франция · ~500 тыс</button>
+                <button class="chip" data-c="it" style="text-align:left">🇮🇹 Италия · ~135 тыс</button>
+              </div>
+            </div>
+            <div class="field">
+              <div class="flabel"><span>Проникновение в новых странах</span><span class="val" id="e-pen-val">3%</span></div>
+              <input type="range" id="e-pen" min="1" max="10" step="1" value="3">
+            </div>
+            <div class="rnote">Швейцария считается по базовому ориентиру 10%. Для новых стран проникновение задаёшь сам — даже скромные 2–3% от многомиллионного рынка кратно превышают весь швейцарский. Расчёт приблизительный, не гарантия.</div>
+          </div>
+          <div class="result">
+            <div class="rtitle">Твой пакет при выходе в Европу</div>
+            <div class="bigfig">
+              <div class="cap">Стоимость пакета</div>
+              <div class="amount" id="e-packval">—</div>
+              <div id="e-mult" style="display:inline-block;margin-top:10px;font-family:'Unbounded';font-weight:700;font-size:15px;color:var(--gold2);background:rgba(232,184,75,.14);padding:6px 16px;border-radius:100px">—</div>
+            </div>
+            <div class="rgrid">
+              <div class="rcell accent"><div class="c-lbl">Подписчиков всего</div><div class="c-val" id="e-subs">—</div></div>
+              <div class="rcell accent"><div class="c-lbl">Капитализация компании</div><div class="c-val" id="e-cap">—</div></div>
+              <div class="rcell"><div class="c-lbl">Дивиденды / год</div><div class="c-val" id="e-div">—</div></div>
+              <div class="rcell"><div class="c-lbl">Вложено сейчас</div><div class="c-val" id="e-invested">—</div></div>
+            </div>
+            <div class="rnote" id="e-summary"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cantons">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">Куда мы идём</div>
+      <h2>От платформы — к живой сети по всей стране</h2>
+    </div>
+    <div class="road">
+      <div class="rstep"><div class="when">Сейчас</div><h4>Платформа и MVP</h4><p>Запуск подписки, каталога бизнесов, биржи услуг и Buddy-помощи. Первые совладельцы и кантональные организаторы.</p></div>
+      <div class="rstep"><div class="when">Октябрь 2026</div><h4>Форум Frankenplatz</h4><p>Первый крупный форум, ориентир 500 человек. Дальше — два форума в год под эгидой платформы, регулярно.</p></div>
+      <div class="rstep"><div class="when">2027+</div><h4>Физические представительства</h4><p>Площадки в кантонах: лекции, встречи, языковые курсы, семинары и воркшопы. Комнаты работают для сообщества и владельцев.</p></div>
+      <div class="rstep"><div class="when">Дальше</div><h4>Европа</h4><p>Отлаженную кантональную модель переносим на ближний круг — Германия, Франция, Италия. Те же роли совладельцев везде, где живут свои.</p></div>
+    </div>
+
+    <div class="euro">
+      <div class="euro-head">
+        <div class="sec-tag" style="margin-bottom:10px">Масштаб впереди</div>
+        <h3 style="font-size:clamp(20px,3vw,30px)">Швейцария — это старт. Рынок Европы в десятки раз больше</h3>
+        <p style="color:var(--ink2);font-size:15px;margin-top:12px;max-width:60ch">Та же модель, та же доля совладельцев — но на аудиторию, которая несравнимо больше швейцарской. Ближний круг расширения:</p>
+      </div>
+      <div class="euro-grid">
+        <div class="euro-card"><div class="ec-country">🇩🇪 Германия</div><div class="ec-num">~4 млн</div><div class="ec-note">русскоязычных · крупнейший рынок Европы</div></div>
+        <div class="euro-card"><div class="ec-country">🇫🇷 Франция</div><div class="ec-num">~500 тыс</div><div class="ec-note">русскоязычная диаспора</div></div>
+        <div class="euro-card"><div class="ec-country">🇮🇹 Италия</div><div class="ec-num">~135 тыс</div><div class="ec-note">русскоязычная диаспора</div></div>
+      </div>
+      <div class="euro-total">
+        <div class="et-row"><span class="et-l">Ближний круг (DE + FR + IT)</span><span class="et-v">~4,6 млн человек</span></div>
+        <div class="et-row"><span class="et-l">Это больше швейцарского рынка в</span><span class="et-v">~36 раз</span></div>
+        <div class="et-row big"><span class="et-l">При тех же 10% проникновения</span><span class="et-v">~460 000 подписчиков</span></div>
+      </div>
+      <p style="color:var(--ink3);font-size:12.5px;margin-top:16px;line-height:1.5">Оценка потенциала рынка по открытым данным о размере русскоязычных диаспор. Швейцария — 130 000; ориентир проникновения 10% — тот же, что в базовой модели. Это горизонт развития, а не обещание конкретных сроков.</p>
+    </div>
+  </div>
+</section>
+
+
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">Вопросы</div>
+      <h2>Спросите — отвечаем честно</h2>
+      <p>Выберите вопрос — ответим сразу. Если вашего нет, задайте свой, и мы свяжемся лично.</p>
+    </div>
+    <div class="chatbox">
+      <div class="chat-feed" id="chatFeed">
+        <div class="chat-msg bot">Привет! Я помогу разобраться с долей в «Своих». О чём рассказать?</div>
+      </div>
+      <div class="chat-options" id="chatOptions"></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:14px" onclick="openApply('Вопрос из чата')">Задать свой вопрос →</button>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="final">
+      <div class="deadline-chip">⏳ Цены действуют только до 10 октября · затем ×2</div>
+      <h2>Войди в долю, пока сообщество только растёт</h2>
+      <p>Всего <b style="color:var(--gold2)">200 пакетов</b> на весь проект. Чем раньше входишь, тем дешевле пакет и тем большую часть пути ты проходишь как совладелец. Когда места закончатся — войти в долю станет невозможно.</p>
+      <div class="cta-row" style="justify-content:center">
+        <a href="#invest" class="btn btn-primary" onclick="event.preventDefault();openApply('Заявка на совладение')">Подать заявку →</a>
+        <a href="https://svoi.ch" target="_blank" rel="noopener" class="btn btn-ghost">Посмотреть MVP ↗</a>
+      </div>
+      <div class="disclaimer">
+        Цифры в калькуляторах — это финансовая модель и прогноз по сценариям роста, а не обещание доходности. Стоимость акций может расти и падать. Покупка акций, размер и приоритет дивидендов, привилегии и условия перепродажи оформляются уставом AG и договором; конкретные условия и налоговые последствия зависят от вашей ситуации и кантона. Это не инвестиционная и не юридическая консультация.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal-bg" id="applyModal">
+  <div class="modal">
+    <button class="m-close" onclick="closeApply()">✕</button>
+    <div id="applyForm">
+      <h3>Подать заявку</h3>
+      <div class="m-sub">Оставь контакты — рассмотрим заявку и, после одобрения, расскажем условия. Приобретение акций AG ты оформляешь сам, напрямую.</div>
+      <div class="m-pack" id="applyPack">Пакет</div>
+      <label>Имя</label>
+      <input type="text" id="apName" placeholder="Как тебя зовут">
+      <label>Telegram или email</label>
+      <input type="text" id="apContact" placeholder="@username или mail@example.com">
+      <label>Твой вопрос <span style="color:var(--ink3);font-weight:400">(необязательно)</span></label>
+      <textarea id="apMsg" rows="2" placeholder="О чём хотите спросить"></textarea>
+      <button class="btn btn-primary" onclick="submitApply()">Отправить заявку</button>
+      <div class="m-note">Это заявка на рассмотрение, не покупка. Мы знакомимся, одобряем — и только потом ты сам оформляешь приобретение акций по уставу AG.</div>
+    </div>
+    <div class="m-ok" id="applyOk" style="display:none">
+      <div class="ok-ic">✅</div>
+      <h3>Заявка принята</h3>
+      <p>Мы свяжемся с тобой в ближайшее время. Добро пожаловать в «Свои».</p>
+      <button class="btn btn-primary" onclick="closeApply()" style="width:100%;justify-content:center;margin-top:22px">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="logo"><span class="dot"></span>SVOI</div>
+    <div>🇨🇭 Платформа сообщества постсоветского пространства в Швейцарии · модель AG · svoi.ch</div>
+  </div>
+</footer>
+
+<script>
+const fmt=n=>Math.round(n).toLocaleString('ru-RU').replace(/,/g,' ');
+const CHF=n=>fmt(n)+' CHF';
+// для таблицы: только число в тысячах, единицы — в шапке
+function short(n){return Math.round(n/1000).toLocaleString('ru-RU').replace(/,/g,' ');}
+const shortCHF=n=>short(n)+' тыс CHF';
+const PRICE=19,ROY=0.10,TOTAL_SHARES=2000000,PACK_SHARES=1000,BLOCK=0.10;
+const BIZ_FEE=199,BIZ_PER_YEAR=500,FORUM_NET=2*500*120*0.3;
+function cost(s){if(s<500)return 5000;if(s<2000)return 12000;if(s<5000)return 22000;if(s<10000)return 38000;return 55000;}
+function subProfit(s){const r=s*PRICE*12;return r-r*ROY-cost(s)*12;}
+function totalGewinn(s){return subProfit(s)+BIZ_PER_YEAR*BIZ_FEE+FORUM_NET;}
+const fastTraj=[3881,7290,9656,11500,13000];
+function subsForYear(y,t){return Math.min(t,Math.round(fastTraj[y-1]*(t/13000)));}
+function packPrice(p){const disc={1:0,2:.03,3:.05,5:.07,10:.09}[p]||0;return Math.round(500*p*(1-disc));}
+function plural(n,one,few,many){return n%10===1&&n%100!==11?one:(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20)?few:many);}
+
+let oPacks=1;
+const oSubs=document.getElementById('o-subs'),oYear=document.getElementById('o-year');
+document.querySelectorAll('#o-packs .chip').forEach(c=>{c.onclick=()=>{document.querySelectorAll('#o-packs .chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');oPacks=+c.dataset.p;document.getElementById('o-packs-val').textContent=oPacks+' '+plural(oPacks,'пакет','пакета','пакетов');renderOwner();};});
+function renderOwner(){
+  const target=+oSubs.value,year=+oYear.value;
+  document.getElementById('o-subs-val').textContent=fmt(target);
+  document.getElementById('o-year-val').textContent=year+' '+plural(year,'год','года','лет');
+  const myShares=oPacks*PACK_SHARES,shareOfCompany=myShares/TOTAL_SHARES,shareWithinBlock=shareOfCompany/BLOCK;
+  const invested=packPrice(oPacks);
+  let cum=0,rows='',divYear=0,packValue=0,gewinnY=0,capY=0;
+  for(let y=1;y<=5;y++){
+    const subs=subsForYear(y,target);
+    const gw=totalGewinn(subs);
+    const myDiv=gw*BLOCK*shareWithinBlock;
+    if(y<=year)cum+=myDiv;
+    const valuation=gw*4,pv=valuation*shareOfCompany;
+    if(y===year){divYear=myDiv;packValue=pv;gewinnY=gw;capY=valuation;}
+    if(y<=year)rows+=`<tr><td>${y}</td><td>${fmt(subs)}</td><td>${(subs/130000*100).toFixed(1)}%</td><td>${short(valuation)}</td><td class="hl">${fmt(myDiv)}</td><td class="hl">${fmt(pv)}</td></tr>`;
+  }
+  document.getElementById('o-tbody').innerHTML=rows;
+  const totalGain=cum+packValue;
+  document.getElementById('o-value').textContent=CHF(totalGain);
+  document.getElementById('o-packval').textContent=CHF(packValue);
+  document.getElementById('o-divcum').textContent=CHF(cum);
+  document.getElementById('o-cap').textContent=shortCHF(capY);
+  document.getElementById('o-invested').textContent=CHF(invested);
+  const tot=cum+packValue;
+  document.getElementById('o-mult').textContent='×'+(tot/invested).toFixed(0)+' от вложенного';
+  document.getElementById('o-summary').innerHTML=`Дивиденды идут ежегодно без ограничения срока, стоимость пакета можно реализовать в любой момент по рыночной цене.<br><br><span style="color:var(--ink3);font-size:12px">Расчёт приблизительный — зависит от числа подписчиков и темпа роста, может меняться в любую сторону. Не гарантия доходности.</span>`;
+}
+oSubs.oninput=renderOwner;oYear.oninput=renderOwner;
+
+const cSubs=document.getElementById('c-subs'),cBiz=document.getElementById('c-biz'),cPacks=document.getElementById('c-packs'),cEv=document.getElementById('c-ev'),cFree=document.getElementById('c-free');
+const EVENT_PROFIT=1500, FREE_FIX=5;
+let selectedFee=5000, selectedCanton='';
+document.querySelectorAll('#c-fee .chip').forEach(c=>{c.onclick=()=>{document.querySelectorAll('#c-fee .chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');selectedFee=+c.dataset.f;selectedCanton='';renderCanton();};});
+function renderCanton(){
+  const subs=+cSubs.value,biz=+cBiz.value,packs=+cPacks.value,ev=+cEv.value,free=+cFree.value;
+  // sync fee chips with selectedFee
+  document.querySelectorAll('#c-fee .chip').forEach(x=>x.classList.toggle('active',+x.dataset.f===selectedFee));
+  document.getElementById('c-fee-val').textContent=selectedCanton?selectedCanton+' · '+fmt(selectedFee)+' CHF':fmt(selectedFee)+' CHF';
+  document.getElementById('c-subs-val').textContent=fmt(subs);
+  document.getElementById('c-biz-val').textContent=fmt(biz);
+  document.getElementById('c-ev-val').textContent=fmt(ev);
+  document.getElementById('c-free-val').textContent=fmt(free);
+  document.getElementById('c-packs-val').textContent=packs+' '+plural(packs,'пакет','пакета','пакетов');
+  const royYear=subs*PRICE*12*ROY;
+  const bizYear=biz*BIZ_FEE*0.30;
+  const eventYear=ev*EVENT_PROFIT*0.70 + free*FREE_FIX;
+  const refGw=totalGewinn(10000);
+  const shareWithinBlock=(packs*PACK_SHARES/TOTAL_SHARES)/BLOCK;
+  const divYear=refGw*BLOCK*shareWithinBlock;
+  const total=royYear+bizYear+eventYear+divYear;
+  const entry=selectedFee+packPrice(packs);
+  document.getElementById('c-total').textContent=CHF(total);
+  document.getElementById('c-roy-amount').textContent=CHF(royYear);
+  document.getElementById('c-ev-amount').textContent=CHF(eventYear);
+  document.getElementById('c-biz-amount').textContent=CHF(bizYear);
+  document.getElementById('c-div-amount').textContent=CHF(divYear);
+  document.getElementById('c-entry').textContent=CHF(entry);
+  const payback=entry/(total/12);
+  document.getElementById('c-summary').innerHTML=`Вход <b style="color:var(--gold2)">${CHF(entry)}</b> (франшиза ${fmt(selectedFee)} + ${packs} ${plural(packs,'пакет','пакета','пакетов')} акций) окупается примерно за <b style="color:var(--gold2)">${payback.toFixed(1)} мес</b> при таких показателях.`;
+}
+cSubs.oninput=renderCanton;cBiz.oninput=renderCanton;cPacks.oninput=renderCanton;cEv.oninput=renderCanton;cFree.oninput=renderCanton;
+
+document.querySelectorAll('.tabs button').forEach(b=>{b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-'+b.dataset.page).classList.add('active');setTimeout(drawChart,30);};});
+
+const cantons=[
+  ['Цюрих','~12 500 укр. статус S',true,5000],
+  ['Женева','центр росс. диаспоры · фр.',false,5000],
+  ['Берн','~6 150 укр. статус S',false,3500],
+  ['Во','~5 500 укр. статус S · фр.',false,3500],
+  ['Базель','фарма · крупная община',false,3500],
+  ['Люцерн','растущая община',false,3500],
+  ['Романди','фр. регион',false,3500],
+  ['Аргау','крупная община',false,2000],
+  ['Санкт-Галлен','крупная община',false,2000],
+  ['Тичино','итал. · растущая община',false,2000],
+  ['Цуг','бизнес-хаб',false,2000],
+  ['Вале','Альпы',false,2000],
+  ['Фрибур','между фр. и нем.',false,2000]
+];
+document.getElementById('canton-list').innerHTML=cantons.map((c,i)=>`<div class="canton ${c[2]?'taken':''}" data-fee="${c[3]}" data-name="${c[0]}" ${c[2]?'':'onclick="pickCanton('+c[3]+',\''+c[0]+'\')"'} style="${c[2]?'':'cursor:pointer'}"><div class="cn-name">${c[0]}</div><div class="cn-pop">${c[1]}</div><span class="cn-tag">${c[2]?'занят':'франшиза '+fmt(c[3])+' CHF'}</span></div>`).join('');
+window.pickCanton=function(fee,name){
+  selectedFee=fee; selectedCanton=name;
+  document.querySelector('.tabs button[data-page="canton"]').click();
+  renderCanton();
+  document.getElementById('invest').scrollIntoView({behavior:'smooth'});
+};
+
+const navSecs=[...document.querySelectorAll('section[id], header')],navLinks=document.querySelectorAll('.navlinks a');
+window.addEventListener('scroll',()=>{let cur='';navSecs.forEach(s=>{if(scrollY>=s.offsetTop-90)cur=s.id;});navLinks.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+cur));});
+
+/* APPLY MODAL */
+window.openApply=function(pack){
+  document.getElementById('applyPack').textContent=pack||'Пакет совладельца';
+  document.getElementById('applyForm').style.display='block';
+  document.getElementById('applyOk').style.display='none';
+  document.getElementById('applyModal').classList.add('open');
+};
+window.closeApply=function(){document.getElementById('applyModal').classList.remove('open');};
+window.submitApply=function(){
+  const name=document.getElementById('apName').value.trim();
+  const contact=document.getElementById('apContact').value.trim();
+  if(!name||!contact){alert('Заполни имя и контакт');return;}
+  // здесь заявка уходит на твою почту/CRM — пока показываем подтверждение
+  document.getElementById('applyForm').style.display='none';
+  document.getElementById('applyOk').style.display='block';
+};
+document.getElementById('applyModal').addEventListener('click',e=>{if(e.target.id==='applyModal')closeApply();});
+// привязываем все CTA "в долю"
+document.querySelectorAll('a.btn-primary[href="#invest"]').forEach(a=>{});
+
+/* EURO CALC */
+const EU_MARKETS={de:4000000,fr:500000,it:135000};
+const CH_MARKET=130000;
+const EU_PRICE=11; // подписка в Европе, EUR
+let ePacks=1, eCountries={de:true,fr:false,it:false};
+function euCost(s){if(s<500)return 5000;if(s<2000)return 12000;if(s<5000)return 22000;if(s<10000)return 38000;if(s<50000)return 120000;if(s<200000)return 400000;return 900000;}
+// Gewinn с раздельной ценой: швейцарские подписчики по 19, европейские по 11
+function euGewinnMixed(chSubs,euSubs){
+  const total=chSubs+euSubs;
+  const rev=chSubs*PRICE*12 + euSubs*EU_PRICE*12;
+  return rev - rev*ROY - euCost(total)*12 + BIZ_PER_YEAR*BIZ_FEE + FORUM_NET;
+}
+document.querySelectorAll('#e-packs .chip').forEach(c=>{c.onclick=()=>{document.querySelectorAll('#e-packs .chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');ePacks=+c.dataset.p;document.getElementById('e-packs-val').textContent=ePacks+' '+plural(ePacks,'пакет','пакета','пакетов');renderEuro();};});
+document.querySelectorAll('#e-countries .chip').forEach(c=>{c.onclick=()=>{c.classList.toggle('active');eCountries[c.dataset.c]=c.classList.contains('active');renderEuro();};});
+const ePen=document.getElementById('e-pen');
+function renderEuro(){
+  const pen=+ePen.value/100;
+  document.getElementById('e-pen-val').textContent=(+ePen.value)+'%';
+  const chSubs=Math.round(CH_MARKET*0.10);
+  let euSubs=0, names=['Швейцария'];
+  for(const [k,on] of Object.entries(eCountries)){if(on){euSubs+=Math.round(EU_MARKETS[k]*pen);names.push({de:'Германия',fr:'Франция',it:'Италия'}[k]);}}
+  const subs=chSubs+euSubs;
+  const g=euGewinnMixed(chSubs,euSubs), cap=g*4;
+  const sh=ePacks*PACK_SHARES/TOTAL_SHARES, swb=sh/BLOCK;
+  const packVal=cap*sh;
+  const divYear=g*BLOCK*swb;
+  const invested=packPrice(ePacks);
+  document.getElementById('e-packval').textContent=CHF(packVal);
+  document.getElementById('e-mult').textContent='×'+(packVal/invested).toFixed(0)+' от вложенного';
+  document.getElementById('e-subs').textContent=fmt(subs);
+  document.getElementById('e-cap').textContent=shortCHF(cap);
+  document.getElementById('e-div').textContent=CHF(divYear);
+  document.getElementById('e-invested').textContent=CHF(invested);
+  document.getElementById('e-summary').innerHTML=`Рынок: ${names.join(' + ')}. Подписка в Европе — 11 EUR, в Швейцарии — 19 CHF. Пакет за ${CHF(invested)} превращается в актив стоимостью <b style="color:var(--gold2)">${CHF(packVal)}</b> с дивидендами <b style="color:var(--gold2)">${CHF(divYear)}</b> в год.<br><br><span style="color:var(--ink3);font-size:12px">Суммы EUR/CHF сопоставимы по курсу. Приблизительная оценка горизонта роста, не гарантия и не обещание сроков.</span>`;
+}
+ePen.oninput=renderEuro;
+
+/* FAQ CHAT */
+const faqList=[
+  ['Что я покупаю за 500 CHF?','Пакет — это 1 000 привилегированных именных акций класса «Основатели», ваша задокументированная доля в швейцарской AG. Это 0,05% компании с приоритетным правом на дивиденды и записью в книге акций (Aktienbuch).'],
+  ['Это акции или просто статус?','Это настоящие акции швейцарской AG с записью в книге акционеров — реальная доля, а не символический статус. Привилегированные именные акции с приоритетом по дивидендам.'],
+  ['Откуда берётся доход?','Платформа зарабатывает на подписках (19 CHF/мес), размещении бизнесов (199 CHF) и форумах. Весь блок «Основателей» — это 10% компании, и вся прибыль на эти 10% распределяется между держателями пакетов. Плюс растёт стоимость самой доли.'],
+  ['Можно ли вернуть деньги?','Для крупных пакетов (Амбассадор, Флагман) есть опция обратного выкупа через 2 года по цене покупки — при наличии у компании свободных средств. Также пакет можно продать с согласия компании.'],
+  ['Надо ли жить в Швейцарии?','Нет. Акционером швейцарской AG может стать человек из любой страны — гражданство и проживание в Швейцарии не требуются.'],
+  ['Почему только 200 пакетов?','Блок «Основателей» — это ровно 10% компании, поделённые на 200 пакетов по ранней цене. Когда они разойдутся, войти как основатель будет нельзя — следующие выпуски пойдут по рыночной цене.'],
+  ['Это безопасно юридически?','Доля оформляется уставом AG и договором. Совет основателей — совещательный клуб, не Verwaltungsrat, без личной ответственности держателей. Конкретные условия и налоги зависят от вашей ситуации — это не инвестиционная консультация.'],
+  ['Что со статусом топ-пакетов?','Амбассадор и Флагман входят в Совет основателей: участие в стратегических сессиях, имя среди основателей на сайте, приоритет в новых раундах, VIP на форумах. У Флагмана — ещё личные сессии с основателем и закрытые гала-ужины.']
+];
+function initChat(){
+  const opt=document.getElementById('chatOptions');
+  opt.innerHTML=faqList.map((f,i)=>`<button class="chat-q" onclick="askFaq(${i})">${f[0]}</button>`).join('');
+}
+window.askFaq=function(i){
+  const feed=document.getElementById('chatFeed');
+  feed.innerHTML+=`<div class="chat-msg user">${faqList[i][0]}</div>`;
+  setTimeout(()=>{
+    feed.innerHTML+=`<div class="chat-msg bot">${faqList[i][1]}</div>`;
+    feed.scrollTop=feed.scrollHeight;
+  },300);
+  feed.scrollTop=feed.scrollHeight;
+};
+initChat();
+
+/* GROWTH CHART (pure canvas) */
+function packValueAt(subs){const g=totalGewinn(subs);return g*4*(PACK_SHARES/TOTAL_SHARES);}
+function drawChart(){
+  const cv=document.getElementById('growthChart');if(!cv)return;
+  const dpr=window.devicePixelRatio||1;
+  const W=cv.clientWidth||cv.offsetWidth||800,H=340;
+  cv.width=W*dpr;cv.height=H*dpr;cv.style.height=H+'px';
+  const ctx=cv.getContext('2d');ctx.setTransform(1,0,0,1,0,0);ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,W,H);
+  const padL=64,padR=20,padT=24,padB=46;
+  const x0=padL,x1=W-padR,y0=H-padB,y1=padT;
+  const subMin=2000,subMax=15000;
+  const pts=[];for(let s=subMin;s<=subMax;s+=500)pts.push([s,packValueAt(s)]);
+  const vMax=packValueAt(subMax)*1.10;
+  const sx=s=>x0+(s-subMin)/(subMax-subMin)*(x1-x0);
+  const sy=v=>y0-(v/vMax)*(y0-y1);
+  ctx.font="11px Manrope,sans-serif";ctx.fillStyle="#9A86B4";ctx.strokeStyle="rgba(185,140,255,.12)";ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){const v=vMax*i/4;const y=sy(v);ctx.beginPath();ctx.moveTo(x0,y);ctx.lineTo(x1,y);ctx.stroke();ctx.textAlign="right";ctx.fillText(Math.round(v).toLocaleString('ru-RU').replace(/,/g,' '),x0-8,y+4);}
+  ctx.textAlign="center";
+  [2000,5000,8000,11000,15000].forEach(s=>{ctx.fillText(s.toLocaleString('ru-RU').replace(/,/g,' '),sx(s),y0+22);});
+  ctx.fillText("активных подписчиков",(x0+x1)/2,H-6);
+  const entryY=sy(500);
+  ctx.strokeStyle="rgba(232,184,75,.55)";ctx.setLineDash([6,5]);ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(x0,entryY);ctx.lineTo(x1,entryY);ctx.stroke();ctx.setLineDash([]);
+  const grad=ctx.createLinearGradient(0,y1,0,y0);
+  grad.addColorStop(0,"rgba(185,140,255,.35)");grad.addColorStop(1,"rgba(185,140,255,0)");
+  ctx.beginPath();ctx.moveTo(sx(pts[0][0]),sy(pts[0][1]));
+  pts.forEach(p=>ctx.lineTo(sx(p[0]),sy(p[1])));
+  ctx.lineTo(sx(pts[pts.length-1][0]),y0);ctx.lineTo(sx(pts[0][0]),y0);ctx.closePath();ctx.fillStyle=grad;ctx.fill();
+  ctx.beginPath();ctx.moveTo(sx(pts[0][0]),sy(pts[0][1]));
+  pts.forEach(p=>ctx.lineTo(sx(p[0]),sy(p[1])));
+  ctx.strokeStyle="#B98CFF";ctx.lineWidth=3;ctx.lineJoin="round";ctx.stroke();
+  const marks=[[2000,'564'],[5000,'1 411'],[10000,'3 055'],[15000,'5 107']];
+  marks.forEach(([s,lbl])=>{
+    const x=sx(s),y=sy(packValueAt(s));
+    ctx.beginPath();ctx.arc(x,y,5,0,7);ctx.fillStyle="#E8B84B";ctx.fill();ctx.strokeStyle="#140A1F";ctx.lineWidth=2;ctx.stroke();
+    ctx.fillStyle="#F4ECFF";ctx.font="bold 12px Unbounded,sans-serif";ctx.textAlign="center";
+    ctx.fillText(lbl+' CHF',x,y-12);
+  });
+}
+window.addEventListener('resize',drawChart);
+setTimeout(drawChart,60);
+
+renderOwner();renderCanton();renderEuro();
+</script>
+
+<style>
+.lang-sw{display:inline-flex;gap:3px;background:var(--card2);border:1px solid var(--line2);border-radius:100px;padding:3px;margin-right:10px}
+.lang-btn{font-family:'Unbounded';font-weight:700;font-size:11px;padding:6px 10px;border-radius:100px;border:none;background:transparent;color:var(--ink3);cursor:pointer;transition:.15s}
+.lang-btn.active{background:var(--sky);color:#fff}
+.lang-btn:hover:not(.active){color:var(--ink)}
+@media(max-width:700px){.lang-sw{margin-right:6px}.lang-btn{padding:5px 7px;font-size:10px}}
+</style>
+<script>
+var UI={"Платформа": {"de": "Plattform", "en": "Platform", "fr": "Plateforme", "it": "Piattaforma"}, "Акции": {"de": "Aktien", "en": "Shares", "fr": "Actions", "it": "Azioni"}, "Финмодель": {"de": "Finanzmodell", "en": "Financials", "fr": "Modèle financier", "it": "Modello finanziario"}, "Стратегия": {"de": "Strategie", "en": "Strategy", "fr": "Stratégie", "it": "Strategia"}, "Для бизнеса": {"de": "Für Unternehmen", "en": "For business", "fr": "Pour les entreprises", "it": "Per le aziende"}, "Для организаторов": {"de": "Für Veranstalter", "en": "For organisers", "fr": "Pour les organisateurs", "it": "Per gli organizzatori"}, "Лояльность": {"de": "Treueprogramm", "en": "Loyalty", "fr": "Fidélité", "it": "Fedeltà"}, "Маршруты": {"de": "Routen", "en": "Routes", "fr": "Itinéraires", "it": "Itinerari"}, "Челленджи": {"de": "Challenges", "en": "Challenges", "fr": "Défis", "it": "Sfide"}, "В каталог": {"de": "Zum Katalog", "en": "To catalogue", "fr": "Au catalogue", "it": "Al catalogo"}, "Каталог": {"de": "Katalog", "en": "Catalogue", "fr": "Catalogue", "it": "Catalogo"}, "Присоединиться": {"de": "Mitmachen", "en": "Join", "fr": "Rejoindre", "it": "Unisciti"}, "Присоединиться →": {"de": "Mitmachen →", "en": "Join →", "fr": "Rejoindre →", "it": "Unisciti →"}, "Начать": {"de": "Loslegen", "en": "Start", "fr": "Commencer", "it": "Inizia"}, "Начать →": {"de": "Loslegen →", "en": "Start →", "fr": "Commencer →", "it": "Inizia →"}, "← Назад": {"de": "← Zurück", "en": "← Back", "fr": "← Retour", "it": "← Indietro"}, "Войти в долю": {"de": "Anteil erwerben", "en": "Become a shareholder", "fr": "Devenir actionnaire", "it": "Diventa azionista"}, "Внутренний документ": {"de": "Internes Dokument", "en": "Internal document", "fr": "Document interne", "it": "Documento interno"}};
+window.setLang=function(lang,btn){
+  document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.remove('active');});
+  if(btn)btn.classList.add('active');
+  // навигация и кнопки по тексту (UI-словарь)
+  if(lang!=='ru'){
+    document.querySelectorAll('.navlinks a, .foot-links a, nav .btn, .lang-target').forEach(function(el){
+      var ru=el.getAttribute('data-ru')||el.textContent.trim();
+      if(!el.getAttribute('data-ru'))el.setAttribute('data-ru',ru);
+      if(UI[ru]&&UI[ru][lang])el.textContent=UI[ru][lang];
+    });
+  }else{
+    document.querySelectorAll('[data-ru]').forEach(function(el){el.textContent=el.getAttribute('data-ru');});
+  }
+  document.documentElement.lang=lang;
+};
+</script>
+</body>
+</html>
